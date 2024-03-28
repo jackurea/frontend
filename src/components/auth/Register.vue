@@ -1,17 +1,19 @@
 <script setup>
-    import { RouterLink } from 'vue-router';
+    import { RouterLink, useRouter } from 'vue-router';
     import { ref, watch, inject } from 'vue';
 
     const name = ref('');
     const pwd = ref('');
     const confirm = ref('');
     const axios = inject('axios');
+    const router = useRouter();
 
     async function login(event) {
         let status;
-        axios.post("http://localhost:8000/login", { name: name.value, pwd: pwd.value })
+        await axios.post("http://localhost:8000/register", { name: name.value, password: pwd.value })
         .then(res => status = res.data)
-
+        if(status == "OK")
+            router.push({ path: '/login' });
 
     };
 

@@ -46,26 +46,38 @@
 
 <style>
     .sidebar-container {
+        position:relative;
         display: flex;
         align-items: flex-start;
         width: 250px;
         padding: 10px;
-        background: rgba(10,10,30,0.8)
+        background: rgba(10,10,30,1)
     }
 
     .menu {
         display: flex;
         flex-direction: column;
+        width: 100%;
         height: 100%;
         justify-content: space-between;
     }
 
+    .item:hover {
+        background: rgba(30,30,90,0.8);
+    }
+
     .item {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-top: 5px;
         padding: 10px;
         border-radius: 10px;
+        width: 100%;
         border-color:beige;
         color: white;
         font-style:italic;
         font-size: 16px;
+        background: rgba(50,50,100,0.4);
     }
 </style>

@@ -69,3 +69,25 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
+
+.dropDown {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  background: rgb(30,30,60);
+  gap: 5px;
+  bottom: -100px;
+  left: -30px;
+}
+
+.dropItem:hover {
+  background: rgb(40,40,80);
+}
+
+.dropItem {
+  white-space: nowrap;
+  color: white;
+  padding: 10px 20px 10px 20px;
+  width: 100%;
+  cursor: pointer;
+}

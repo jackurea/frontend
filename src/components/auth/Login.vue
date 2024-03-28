@@ -9,10 +9,14 @@
 
     async function login(event) {
         let status;
-        axios.post("http://localhost:8000/login", { name: name.value, pwd: pwd.value })
+        await axios.post("http://localhost:8000/login", { name: name.value, password: pwd.value }, {
+            headers: {
+            }
+        })
         .then(res => status = res.data);
+        console.log(status);
         if(status == "OK") {
-            router.push({ path: '/' });
+            router.push({ path: '/dashboard' });
         } else {
 
         }     
