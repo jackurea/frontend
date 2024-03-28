@@ -7,9 +7,9 @@
     const axios = inject('axios');
     const router = useRouter();
 
-    async function reset(event) {
+    async function login(event) {
         let status;
-        axios.post("http://localhost:8000/resetpwd", { name: name.value, pwd: pwd.value })
+        axios.post("http://localhost:8000/login", { name: name.value, pwd: pwd.value })
         .then(res => status = res.data);
         if(status == "OK") {
             router.push({ path: '/' });
@@ -23,10 +23,15 @@
 
 <template>
     <div class="container">
-        <div class="title">
-            Reset Password
-        </div>
         <div class="box">
+            <div class="title">Email</div>
+            <div class="form">
+               <label style="color: white">Name:</label>
+               <input type="text" v-model="name"/>
+               <span class="error" v-if="!name">
+                {{ !name && 'Name is required' }}
+               </span>
+            </div>
             <div class="form">
                <label style="color: white">Password:</label>
                <input type="password" v-model="pwd"/>
@@ -35,18 +40,12 @@
                </span>
             </div>
             <div class="form">
-                <label style="color: white">Confirm:</label>
-                <input type="password" v-model="confirm"/>
-                <span class="error" v-if="confirm !== pwd">
-                    {{ 'Password is not correct' }}
-                </span>               
+                <button class="login-button" @click="login">
+                    Login
+                </button>
             </div>
-            <div class="box">
-                <div class="form">
-                    <button class="login-button" @click="reset">
-                        Reset Password
-                    </button>
-                </div>
+            <div class="form">
+                <RouterLink to="/register">Don't have an account? Please register!</RouterLink>
             </div>
         </div>
     </div>

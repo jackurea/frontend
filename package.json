@@ -9,9 +9,12 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@rollup/plugin-alias": "^5.1.0",
+    "path": "^0.12.7",
     "vue": "^3.4.21",
     "vue-axios": "^3.5.2",
     "vue-router": "^4.3.0",
+    "vue-svg-loader": "^0.16.0",
     "vuex": "^4.1.0"
   },
   "devDependencies": {

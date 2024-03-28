@@ -25,7 +25,7 @@ const store = createStore({
             email: '',
             fcm: '',
             role: '',
-            accessToken: ''
+            accessToken: 'dafs21423'
         }
     },
     mutations: {
@@ -53,11 +53,11 @@ const router = createRouter({
             name: 'App',
             children: [
                 {
-                    path: '',
+                    path: 'dashboard',
                     component: Dashboard
                 },
                 {
-                    path: 'settings',
+                    path: 'setting',
                     component: Setting
                 },
                 {

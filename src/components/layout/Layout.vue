@@ -1,7 +1,7 @@
 <script setup>
     import { RouterView } from 'vue-router';
-    import Header from 'Header.vue';
-    import Sidebar from 'Sidebar.vue';
+    import Header from './Header.vue';
+    import Sidebar from './Sidebar.vue';
 
 </script>
 
@@ -19,8 +19,6 @@
     .container {
         display: flex;
         flex-direction: column;
-        justify-content: center;
-        align-items: center;
         width: 100vw;
         height: 100vh;
         background: linear-gradient(45deg, #000000, #000023);

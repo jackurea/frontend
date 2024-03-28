@@ -6,49 +6,48 @@
 </script>
 
 <template>
-    <div class="container">
+    <div class="header-container">
         <div class="title">
             LaraVue Site
         </div>
         <div class="tool">
             <div class="icon">
-                <Alert />
+                <img src='@/assets/alert.svg' width="30" height="30"/>
             </div>
             <div class="icon">
-                <User />
+                <img src='@/assets/user.svg' width="30" height="30"/>
             </div>
             <div class="icon">
-                <More />
+                <img src='@/assets/more.svg' width="30" height="30"/>
             </div>
         </div>
     </div>
 </template>
 
 <style scoped>
-    .container {
+    .header-container {
         display: flex;
-        justify-content: space-around;
+        justify-content: space-between;
         width: 100%;
-        padding: 30px;
-        background: rgb(100,100,200)
+        padding: 10px 20px 10px 20px;
+        background: rgb(30,30,60)
     }
 
     .title {
-        font-size: 24px;
+        font-size: 32px;
         font-style: italic;
-        line-height: 28px;
         color: white;
     }
 
     .tool {
         display: flex;
         gap: 15px;
+        margin-right: 20px;
     }
 
     .icon {
-        width: 50px;
-        height: 50px;
-        border-radius: 5px;
+        padding: 10px;
+        border-radius: 10px;
         border-color:beige;
         box-shadow: 1px 1px 1px blue;
         background: white;
