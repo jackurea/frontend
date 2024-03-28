@@ -1,27 +1,31 @@
 <script setup>
-    import { RouterLink, useRouter } from 'vue-router';
-    import { ref, watch, inject } from 'vue';
+    import { RouterLink } from 'vue-router';
+    import { ref, watch, inject, onMounted } from 'vue';
+    import { useStore } from 'vuex';
+    import auth from '../../util/getToken';
 
     const name = ref('');
     const pwd = ref('');
+    let resetToken = ref('');    
     const axios = inject('axios');
-    const router = useRouter();
+    const store = useStore();
 
     async function login(event) {
-        let status;
-        await axios.post("http://localhost:8000/login", { name: name.value, password: pwd.value }, {
-            headers: {
-            }
-        })
-        .then(res => status = res.data);
-        console.log(status);
-        if(status == "OK") {
-            router.push({ path: '/dashboard' });
-        } else {
-
-        }     
+        await axios.post("http://localhost:8000/login", { name: name.value, password: pwd.value })
+        .then(res => resetToken = res.data);
+        
+        if(resetToken !== "FAIL") {
+            await store.dispatch('resetToken', resetToken);
+            localStorage.setItem('accessToken', resetToken);
+            window.location.href = '/dashboard';
+        }
     };
 
+    onMounted(() => {
+        let token = auth.getToken();
+        if(token !== '' && token !== null && token !== 'null')
+            window.location.href = '/dashboard';
+    });
 
 </script>
 
@@ -50,6 +54,9 @@
             </div>
             <div class="form">
                 <RouterLink to="/register">Don't have an account? Please register!</RouterLink>
+            </div>
+            <div class="forgetpwd">
+                <RouterLink to="/forget">Forget password?</RouterLink>
             </div>
         </div>
     </div>
@@ -84,6 +91,13 @@
         display: flex;
         flex-direction: column;
         align-items:flex-start;
+        width: 100%;
+    }
+
+    .forgetpwd {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
         width: 100%;
     }
 

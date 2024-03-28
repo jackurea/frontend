@@ -1,23 +1,35 @@
 <script setup>
     import { RouterLink, useRouter } from 'vue-router';
-    import { ref, watch, inject } from 'vue';
+    import { ref, watch, inject, computed, onMounted } from 'vue';
+    import { useStore } from 'vuex';
+    import auth from '../../util/getToken';
 
     const name = ref('');
-    const pwd = ref('');
     const axios = inject('axios');
+    let resetToken = ref('');
+    const store = useStore();
+    const forgetClick = ref(false);
     const router = useRouter();
 
+    async function redirect() {
+        router.push({ path: `/reset/${name.value}/${resetToken}` });
+    }
+    
     async function forget(event) {
-        let status;
-        axios.post("http://localhost:8000/forgetpwd", { name: name.value, pwd: pwd.value })
-        .then(res => status = res.data);
-        if(status == "OK") {
-            router.push({ path: '/' });
-        } else {
+        await axios.post("http://localhost:8000/forget", { name: name.value })
+        .then(res => resetToken = res.data);
 
-        }     
+        forgetClick.value = true;
+
+        await store.dispatch('resetToken', resetToken);
+
     };
 
+    onMounted(() => {
+        let token = auth.getToken();
+        if(token !== '' && token !== null && token !== 'null')
+            window.location.href = '/dashboard';
+    });
 
 </script>
 
@@ -37,6 +49,10 @@
                     Forget Password
                 </button>
             </div>
+            <div class="redirectpwd" v-if="forgetClick">
+                Rrequest has successfully sent! 
+                <div @click="redirect">Please redirect to rest password</div>
+            </div>
         </div>
     </div>
 </template>
@@ -50,6 +66,10 @@
         width: 100vw;
         height: 100vh;
         background: linear-gradient(45deg, #000000, #000023);
+    }
+    .redirectpwd {
+        cursor: pointer;
+        color: green;
     }
     .error {
         color: rgba(150,0,0,0.8); 

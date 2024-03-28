@@ -1,6 +1,6 @@
 import { createApp, defineAsyncComponent } from 'vue'
 import { createWebHistory, createRouter } from 'vue-router';
-import { createStore } from 'vuex';
+import { createStore, useStore } from 'vuex';
 import axios from 'axios';
 import VueAxios from 'vue-axios';
 
@@ -19,14 +19,12 @@ import './style.css';
 import App from './App.vue';
 
 const store = createStore({
-    state () {
-        return {
-            name: 'admin',
-            email: '',
-            fcm: '',
-            role: '',
-            accessToken: 'dafs21423'
-        }
+    state: {
+        name: 'admin',
+        email: '',
+        fcm: '',
+        role: '',
+        accessToken: ''
     },
     mutations: {
         store (state, { name, email, fcm, role, accessToken }) {
@@ -35,14 +33,22 @@ const store = createStore({
             state.fcm = fcm;
             state.role = role;
             state.accessToken = accessToken;
-        }
+        },
+        resetToken (state, resetToken) {
+            state.accessToken = resetToken;
+        } 
     },
     actions: {
         store (context) {
-            context.dispatch('store');
+            context.commit('store');
+        },
+        resetToken ({commit, state}, resetToken) {
+            commit('resetToken', resetToken);
         }
     }
 });
+
+const localStore = useStore();
 
 const router = createRouter({ 
     history: createWebHistory(),
@@ -73,12 +79,13 @@ const router = createRouter({
         { path: '/login', component: Login, name: 'login'},
         { path: '/register', component: Register, name: 'register' },
         { path: '/forget', component: ForgetPassword, name: 'forget' },
-        { path: '/reset/:token', component: ResetPassword, name: 'reset' }
+        { path: '/reset/:name/:token', component: ResetPassword, name: 'reset' }
     ]
 });
 
+/*
 router.beforeEach(( to, from, next )=> {
-    if(to.name !== 'login' && to.name !== 'register' && to.name !== 'forgetpwd' && to.name !== 'resetpwd' && !store.state.accessToken) {
+    if(to.name !== 'login' && to.name !== 'register' && to.name !== 'forget' && to.name !== 'reset' && !localStore.state.accessToken) {
         next({
             path: 'login',
             replace: true
@@ -87,10 +94,10 @@ router.beforeEach(( to, from, next )=> {
         next();
     }
 });
+*/
 
 const app = createApp(App)
-    .use(store)
-    .use(router);
+    .use(router).use(store);
 
 app.use(VueAxios, axios);
 app.provide('axios', app.config.globalProperties.axios);

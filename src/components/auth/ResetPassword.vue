@@ -1,23 +1,33 @@
 <script setup>
-    import { RouterLink, useRouter } from 'vue-router';
-    import { ref, watch, inject } from 'vue';
+    import { RouterLink, useRoute } from 'vue-router';
+    import { ref, watch, inject, onMounted } from 'vue';
+    import { useStore } from 'vuex';
+    import auth from '../../util/getToken';
 
     const name = ref('');
     const pwd = ref('');
     const axios = inject('axios');
-    const router = useRouter();
+    const route = useRoute();
+    const store = useStore();
+    let status = ref('');
 
+    function redirect() {
+        window.location.href = '/login';
+    }
     async function reset(event) {
-        let status;
-        axios.post("http://localhost:8000/resetpwd", { name: name.value, pwd: pwd.value })
+        axios.post("http://localhost:8000/reset", { name: route.params.name, password: pwd.value })
         .then(res => status = res.data);
         if(status == "OK") {
-            router.push({ path: '/' });
         } else {
 
         }     
     };
 
+    onMounted(() => {
+        let token = auth.getToken();
+        if(token !== route.params.token)
+            window.location.href = '/login';
+    })
 
 </script>
 
@@ -44,9 +54,13 @@
             <div class="box">
                 <div class="form">
                     <button class="login-button" @click="reset">
-                        Reset Password
+                        Reset Password 
                     </button>
                 </div>
+            </div>
+            <div class="redirectlogin" v-if="status == 'OK'">
+                Password has successfully changed! 
+                <div @click="redirect">Please redirect to login</div>
             </div>
         </div>
     </div>
@@ -61,6 +75,10 @@
         width: 100vw;
         height: 100vh;
         background: linear-gradient(45deg, #000000, #000023);
+    }
+    .redirectlogin {
+        cursor: pointer;
+        color: green;
     }
     .error {
         color: rgba(150,0,0,0.8); 
