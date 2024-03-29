@@ -12,9 +12,10 @@
     let user = reactive([]);
     let paginateRef = ref(1);
     const axios = inject('axios');
+    let baseUrl = url.getStageUrl();
 
     async function fetchUser(event) {
-        await axios.get(`${url.getStageUrl()}\list`)
+        await axios.get(`${baseUrl}/list`)
         .then(res => {
             res.data.forEach(ite => user.push(ite))
         });
