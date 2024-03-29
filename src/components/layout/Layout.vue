@@ -27,5 +27,6 @@
     .wrapper {
         display: flex;
         flex-direction: row;
+        height: 100%;
     }
 </style>

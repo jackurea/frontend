@@ -3,6 +3,11 @@ import { createWebHistory, createRouter } from 'vue-router';
 import { createStore, useStore } from 'vuex';
 import axios from 'axios';
 import VueAxios from 'vue-axios';
+import { VueAwesomePaginate } from 'vue-awesome-paginate';
+import { createVuetify } from 'vuetify';
+import * as components from 'vuetify/components';
+import * as directives from 'vuetify/directives';
+
 
 const Login = defineAsyncComponent(() => import('./components/auth/Login.vue'));
 const Dashboard = defineAsyncComponent(() => import('./components/main/Dashboard.vue'));
@@ -13,9 +18,11 @@ const UserView = defineAsyncComponent(() => import('./components/user/View.vue')
 const UserEdit = defineAsyncComponent(() => import('./components/user/Edit.vue'));
 const ResetPassword = defineAsyncComponent(() => import('./components/auth/ResetPassword.vue'));
 const ForgetPassword = defineAsyncComponent(() => import('./components/auth/ForgetPassword.vue'));
-
+const Mail = defineAsyncComponent(() => import('./components/email/Email.vue'));
 
 import './style.css';
+import 'vue-awesome-paginate/dist/style.css';
+import 'vuetify/dist/vuetify.min.css';
 import App from './App.vue';
 
 const store = createStore({
@@ -48,8 +55,6 @@ const store = createStore({
     }
 });
 
-const localStore = useStore();
-
 const router = createRouter({ 
     history: createWebHistory(),
     routes: [
@@ -61,6 +66,10 @@ const router = createRouter({
                 {
                     path: 'dashboard',
                     component: Dashboard
+                },
+                {
+                    path: 'mail',
+                    component: Mail
                 },
                 {
                     path: 'setting',
@@ -95,10 +104,15 @@ router.beforeEach(( to, from, next )=> {
     }
 });
 */
+const Vuetify = createVuetify({
+    components,
+    directives
+});
 
 const app = createApp(App)
     .use(router).use(store);
-
+app.use(Vuetify);
+app.use(VueAwesomePaginate);
 app.use(VueAxios, axios);
 app.provide('axios', app.config.globalProperties.axios);
 app.mount('#app');
