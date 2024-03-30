@@ -1,30 +1,25 @@
 <script setup>
     import { RouterLink, useRoute } from 'vue-router';
-    import { ref, watch, inject, onMounted } from 'vue';
+    import { ref, watch, inject, onMounted, reactive } from 'vue';
     import { useStore } from 'vuex';
-    import auth from '../../util/getToken';
 
-    const name = ref('');
+    let status = ref(false);
+    const confirm = ref('');
     const pwd = ref('');
     const axios = inject('axios');
     const route = useRoute();
     const store = useStore();
-    let status = ref('');
 
     function redirect() {
         window.location.href = '/login';
     }
     async function reset(event) {
-        axios.post("http://localhost:8000/reset", { name: route.params.name, password: pwd.value })
-        .then(res => status = res.data);
-        if(status == "OK") {
-        } else {
-
-        }     
+        await axios.post("http://localhost:8000/reset", { name: route.params.name, password: pwd.value })
+        .then(res => status.value = true );
     };
 
     onMounted(() => {
-        let token = auth.getToken();
+        let token = store.state.accessToken;
         if(token !== route.params.token)
             window.location.href = '/login';
     })
@@ -58,7 +53,7 @@
                     </button>
                 </div>
             </div>
-            <div class="redirectlogin" v-if="status == 'OK'">
+            <div class="redirectlogin" v-show="status">
                 Password has successfully changed! 
                 <div @click="redirect">Please redirect to login</div>
             </div>

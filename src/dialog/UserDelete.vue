@@ -1,15 +1,16 @@
 <script setup>
-    import { defineProps, inject } from 'vue';
+    import { defineProps, defineEmits, inject } from 'vue';
 
     const axios = inject('axios');
-    const name = defineProps('name');
+    const props = defineProps(['name']);
+    const emit = defineEmits();
 
     async function deleteUser() {
         let status;
-        await axios.delete(`http://localhost:8000/delete/${name}`)
+        await axios.delete(`http://localhost:8000/delete/${props.name}`)
               .then(res => status = res.data);
-
-        console.log(`>>>>delete user ${name}`, status);
+        emit("delete", props.name);
+        console.log(`>>>>delete user ${props.name}`, status);
     }
 
 </script>

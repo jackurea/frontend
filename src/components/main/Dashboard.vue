@@ -2,16 +2,8 @@
     import { inject, computed, watch, onMounted } from 'vue';
     import { useStore } from 'vuex';
     import { useRouter } from 'vue-router';
-    import auth from '../../util/getToken';
 
     const store = useStore();
-    const router = useRouter();
-
-    onMounted(() => {
-        let token = auth.getToken();
-        if(token === '' || token === null || token === 'null')
-            router.push({ path: '/login' });
-    });
 
 </script>
 

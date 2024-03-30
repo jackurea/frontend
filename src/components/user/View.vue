@@ -21,6 +21,15 @@
         });
     };
 
+    async function userEdit(item) {
+
+    }
+
+    async function userDelete(name) {
+        let t = user.filter(iterator => iterator.name === name);
+        user.splice(user.indexOf(t), 1);
+    }
+
     onMounted(() => {
         fetchUser();
     });
@@ -45,11 +54,11 @@
                             {{ item.role }}
                         </div>
                         <div style="display: flex; gap: 5px;">
-                            <UserView :info="item">
+                            <UserView info="item">
                             </UserView>
-                            <UserEdit :info="item">
+                            <UserEdit info="item" @edit="userEdit">
                             </UserEdit>
-                            <UserDelete :name="item.name">
+                            <UserDelete :name="item.name" @delete="userDelete">
                             </UserDelete>
                         </div>
                     </div>

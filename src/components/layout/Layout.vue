@@ -1,8 +1,19 @@
 <script setup>
-    import { RouterView } from 'vue-router';
+    import { onMounted } from 'vue';
+    import { RouterView, useRouter } from 'vue-router';
     import Header from './Header.vue';
     import Sidebar from './Sidebar.vue';
 
+    import auth from '../../util/getToken';
+
+    const router = useRouter();
+        
+    onMounted(() => {
+        let token = auth.getToken();
+        if(token === '' || token === null || token === 'null')
+            router.push({ path: '/login' });
+    });
+    
 </script>
 
 <template>
