@@ -54,9 +54,9 @@
                             {{ item.role }}
                         </div>
                         <div style="display: flex; gap: 5px;">
-                            <UserView info="item">
+                            <UserView :info="item">
                             </UserView>
-                            <UserEdit info="item" @edit="userEdit">
+                            <UserEdit :info="item" @edit="userEdit">
                             </UserEdit>
                             <UserDelete :name="item.name" @delete="userDelete">
                             </UserDelete>
